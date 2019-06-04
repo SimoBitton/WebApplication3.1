@@ -23,7 +23,6 @@ namespace WebApplication3._1.Controllers
 
         public ActionResult Second(string ip, int port, int time)
         {
-
             Command.Instance.Start(ip, port);
             string[] details = Command.Instance.SendCommand();
             ViewBag.lon = float.Parse(details[0]);
@@ -33,7 +32,7 @@ namespace WebApplication3._1.Controllers
         }
 
         [HttpPost]
-        public string createXmlData()
+        public string generateXml()
         {
             //Initiate XML stuff
             StringBuilder sb = new StringBuilder();
@@ -41,12 +40,14 @@ namespace WebApplication3._1.Controllers
             XmlWriter writer = XmlWriter.Create(sb, settings);
 
             writer.WriteStartDocument();
-            writer.WriteStartElement("Location");
+            writer.WriteStartElement("Points");
             Random rnd = new Random();
+
             string[] details = Command.Instance.SendCommand();
-            string lon = (float.Parse(details[0]) + rnd.Next(50)).ToString();
-            string lat = (float.Parse(details[1]) + rnd.Next(50)).ToString();
-            Console.WriteLine(lon + "  " + lat);
+
+            string lon = (float.Parse(details[0]) + rnd.Next(10, 40)).ToString();
+            string lat = (float.Parse(details[1]) + rnd.Next(10, 40)).ToString();
+
             writer.WriteElementString("Lon", lon);
             writer.WriteElementString("Lat", lat);
             writer.WriteEndElement();

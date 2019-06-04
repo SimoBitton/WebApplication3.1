@@ -57,7 +57,6 @@ namespace WebApplication3._1.Models
                 Console.WriteLine("Unable to connect to server");
                 return;
             }
-
         }
 
         public string[] SendCommand()
@@ -73,7 +72,6 @@ namespace WebApplication3._1.Models
             ns.Read(msg, 0, msg.Length);   //the networkstream now reads what is being sent from the client
             char[] charsToTrim = { ' ', '?' };
             string phrase = Encoding.Default.GetString(msg).Trim(charsToTrim);
-            //Console.WriteLine(phrase); //we print the filtered input from the client
             cmds = phrase.Split(',', '\n');
             cmds[0] = cmds[0].Replace("/position/longitude-deg = '", "");
             cmds[0] = cmds[0].Replace("' (double)\r", "");

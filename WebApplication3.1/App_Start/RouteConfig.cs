@@ -25,6 +25,11 @@ namespace WebApplication3._1
               defaults: new { controller = "First", action = "Second" }
           );
 
+            routes.MapRoute(
+             name: "Default",
+             url: "{action}/{id}",
+             defaults: new { controller = "First", action = "Default", id = UrlParameter.Optional }
+          );
 
         }
     }
