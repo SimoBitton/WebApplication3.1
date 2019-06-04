@@ -31,6 +31,16 @@ namespace WebApplication3._1.Controllers
             return View();
         }
 
+        public ActionResult Third(string ip, int port, int time, int sec)
+        {
+            Command.Instance.Start(ip, port);
+            string[] details = Command.Instance.SendCommand();
+            ViewBag.lon = float.Parse(details[0]);
+            ViewBag.lat = float.Parse(details[1]);
+            Session["time"] = time;
+            return View();
+        }
+
         public ActionResult Default()
         {
             return View();
