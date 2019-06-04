@@ -12,12 +12,20 @@ namespace WebApplication3._1
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapRoute(
                 name: "FirstMission",
                 url: "display/{ip}/{port}",
                 defaults: new { controller = "First", action = "Index" }
           );
+
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(
+              name: "SecondMission",
+              url: "display/{ip}/{port}/{time}",
+              defaults: new { controller = "First", action = "Second" }
+          );
+
+
         }
     }
 }

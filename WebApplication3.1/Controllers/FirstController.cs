@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using WebApplication3._1.Models;
 
 namespace WebApplication3._1.Controllers
@@ -17,6 +19,43 @@ namespace WebApplication3._1.Controllers
             ViewBag.lon = float.Parse(details[0]);
             ViewBag.lat = float.Parse(details[1]);
             return View();
+        }
+
+        public ActionResult Second(string ip, int port, int time)
+        {
+
+            Command.Instance.Start(ip, port);
+            string[] details = Command.Instance.SendCommand();
+            ViewBag.lon = float.Parse(details[0]);
+            ViewBag.lat = float.Parse(details[1]);
+            Session["time"] = time;
+            return View();
+        }
+
+        [HttpPost]
+        public string createXmlData()
+        {
+            //Initiate XML stuff
+            StringBuilder sb = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings();
+            XmlWriter writer = XmlWriter.Create(sb, settings);
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Location");
+            Random rnd = new Random();
+            string[] details = Command.Instance.SendCommand();
+            string lon = (float.Parse(details[0]) + rnd.Next(50)).ToString();
+            string lat = (float.Parse(details[1]) + rnd.Next(50)).ToString();
+            Console.WriteLine(lon + "  " + lat);
+            writer.WriteElementString("Lon", lon);
+            writer.WriteElementString("Lat", lat);
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+
+            return sb.ToString();
+
+
         }
     }
 }
