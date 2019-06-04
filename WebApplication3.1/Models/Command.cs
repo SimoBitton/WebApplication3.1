@@ -62,7 +62,8 @@ namespace WebApplication3._1.Models
         public string[] SendCommand()
         {
             ns = server.GetStream();
-            string[] cmds = { "get /position/longitude-deg", "get /position/latitude-deg" };
+            string[] cmds = { "get /position/longitude-deg", "get /position/latitude-deg",
+            "get /controls/flight/rudder", "get /controls/engines/current-engine/throttle"};
             foreach (string cmd in cmds)
             {
                 string tmpCmd = cmd + "\r\n";
@@ -74,9 +75,11 @@ namespace WebApplication3._1.Models
             string phrase = Encoding.Default.GetString(msg).Trim(charsToTrim);
             cmds = phrase.Split(',', '\n');
             cmds[0] = cmds[0].Replace("/position/longitude-deg = '", "");
-            cmds[0] = cmds[0].Replace("' (double)\r", "");
             cmds[1] = cmds[1].Replace("/> /position/latitude-deg = '", "");
-            cmds[1] = cmds[1].Replace("' (double)\r", "");
+            cmds[2] = cmds[2].Replace("/> /controls/flight/rudder = '", "");
+            cmds[3] = cmds[3].Replace("/> /controls/engines/current-engine/throttle = '", "");
+            for (int i = 0; i < 4; i++)
+                cmds[i] = cmds[i].Replace("' (double)\r", "");
             return cmds;
         }
 
