@@ -31,6 +31,11 @@ namespace WebApplication3._1.Controllers
             return View();
         }
 
+        public ActionResult Default()
+        {
+            return View();
+        }
+
         [HttpPost]
         public string generateXml()
         {
