@@ -34,10 +34,8 @@ namespace WebApplication3._1.Controllers
         public ActionResult Third(string ip, int port, int time, int sec)
         {
             Command.Instance.Start(ip, port);
-            string[] details = Command.Instance.SendCommand();
-            ViewBag.lon = float.Parse(details[0]);
-            ViewBag.lat = float.Parse(details[1]);
             Session["time"] = time;
+            Session["sec"] = sec;
             return View();
         }
 
@@ -70,8 +68,31 @@ namespace WebApplication3._1.Controllers
             writer.Flush();
 
             return sb.ToString();
+        }
 
+        [HttpPost]
+        public string createFile()
+        {
+            string[] details = Command.Instance.SendCommand();
+            System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\" + "flight1.txt", details);
 
+            StringBuilder sb = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings();
+            XmlWriter writer = XmlWriter.Create(sb, settings);
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Details");
+
+            writer.WriteElementString("Lon", details[0]);
+            writer.WriteElementString("Lat", details[1]);
+            writer.WriteElementString("Rudder", details[2]);
+            writer.WriteElementString("Throttle", details[3]);
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+
+            return sb.ToString();
         }
     }
 }

@@ -42,7 +42,7 @@
         ctx.beginPath();
         var lon = (@ViewBag.lon + 180) * (canvas.width / 360);
         var lat = (@ViewBag.lat + 90) * (canvas.height / 180);
-        ctx.arc(lon, lat, 5, 0, 2 * Math.PI);
+        ctx.arc(lon, lat, 7, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
 
