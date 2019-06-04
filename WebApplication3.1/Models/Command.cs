@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Web;
+using System.IO;
 
 namespace WebApplication3._1.Models
 {
@@ -13,7 +15,8 @@ namespace WebApplication3._1.Models
         /// singleton design pattern - we want multiple users of the same instance
         /// </summary>
         private static Command c_Instance = null;
-        private TcpClient server;
+        public TcpClient server;
+        NetworkStream ns;
         public static Command Instance
         {
             get
@@ -33,11 +36,6 @@ namespace WebApplication3._1.Models
         /// <param name="flightServerIP">the ip address of the server - flightgear simulator </param>
         /// <param name="flightCommandPort">the port in which we will open a socket connection </param>
 
-        public Command()
-        {
-            Start();
-        }
-
         /// <summary>
         /// the actual connection function
         /// when invoked - it will send to the server the actual command
@@ -46,10 +44,8 @@ namespace WebApplication3._1.Models
         /// <param name="flightServerIP"></param>
         /// <param name="flightCommandPort"></param>
 
-        public void Start()
+        public void Start(string flightServerIP, int flightCommandPort)
         {
-            string flightServerIP = "127.0.0.1";
-            int flightCommandPort = 5400;
             byte[] data = new byte[1024];
 
             try
@@ -61,17 +57,17 @@ namespace WebApplication3._1.Models
                 Console.WriteLine("Unable to connect to server");
                 return;
             }
+
         }
 
         public string[] SendCommand()
         {
-            NetworkStream ns = server.GetStream();
+            ns = server.GetStream();
             string[] cmds = { "get /position/longitude-deg", "get /position/latitude-deg" };
             foreach (string cmd in cmds)
             {
                 string tmpCmd = cmd + "\r\n";
-                ns.Write(Encoding.ASCII.GetBytes(tmpCmd), 0, tmpCmd.Length);
-                ns.Flush();
+                ns.Write(Encoding.ASCII.GetBytes(tmpCmd), 0, Encoding.ASCII.GetBytes(tmpCmd).Length);
             }
             byte[] msg = new byte[1024];     // byte array
             ns.Read(msg, 0, msg.Length);   //the networkstream now reads what is being sent from the client
@@ -83,7 +79,6 @@ namespace WebApplication3._1.Models
             cmds[0] = cmds[0].Replace("' (double)\r", "");
             cmds[1] = cmds[1].Replace("/> /position/latitude-deg = '", "");
             cmds[1] = cmds[1].Replace("' (double)\r", "");
-            ns.Close();
             return cmds;
         }
 
