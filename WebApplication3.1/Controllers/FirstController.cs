@@ -83,13 +83,12 @@ namespace WebApplication3._1.Controllers
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Points");
-            Random rnd = new Random();
 
             if (count < data.Length)
             {
 
-                string lon = (float.Parse(data[count][0]) + rnd.Next(10, 40)).ToString();
-                string lat = (float.Parse(data[count][1]) + rnd.Next(10, 40)).ToString();
+                string lon = data[count][0];
+                string lat = data[count][1];
                 string rudder = data[count][2];
                 string throttle = data[count][3];
 
@@ -103,6 +102,7 @@ namespace WebApplication3._1.Controllers
 
                 count++;
             }
+            else return "done";
             return sb.ToString();
 
         }
@@ -121,12 +121,11 @@ namespace WebApplication3._1.Controllers
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Points");
-            Random rnd = new Random();
 
             string[] details = Command.Instance.SendCommand();
 
-            string lon = (float.Parse(details[0]) + rnd.Next(10, 40)).ToString();
-            string lat = (float.Parse(details[1]) + rnd.Next(10, 40)).ToString();
+            string lon = details[0];
+            string lat = details[1];
 
             writer.WriteElementString("Lon", lon);
             writer.WriteElementString("Lat", lat);
@@ -140,7 +139,6 @@ namespace WebApplication3._1.Controllers
         [HttpPost]
         public string createFile()
         {
-            Random rnd = new Random();
             string[] details = Command.Instance.SendCommand();
             System.IO.File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\" + Session["fileName"].ToString() + ".txt", string.Join(";", details));
 
@@ -151,8 +149,8 @@ namespace WebApplication3._1.Controllers
             writer.WriteStartDocument();
             writer.WriteStartElement("Details");
 
-            writer.WriteElementString("Lon", (float.Parse(details[0]) + rnd.Next(10, 40)).ToString());
-            writer.WriteElementString("Lat", (float.Parse(details[1]) + rnd.Next(10, 40)).ToString());
+            writer.WriteElementString("Lon", details[0]);
+            writer.WriteElementString("Lat", details[1]);
             writer.WriteElementString("Rudder", details[2]);
             writer.WriteElementString("Throttle", details[3]);
 

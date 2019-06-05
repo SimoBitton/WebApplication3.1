@@ -53,6 +53,10 @@
         endPoints = [];
         myTimer = (function () {
             $.post("@Url.Action("fileToXml")").done(function (xml) {
+                if (xml == "done") {
+                    alert("finished reading from file :)");
+                    clearInterval(endInterval);
+                }
                 var xmlDoc = $.parseXML(xml);
                 $xml = $(xmlDoc);
                 Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
@@ -69,7 +73,7 @@
             });
          });
 
-        setInterval(myTimer, IntervalTime);
+        var endInterval=setInterval(myTimer, IntervalTime);
         myTimer();
 
     </script>
