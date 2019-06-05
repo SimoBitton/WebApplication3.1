@@ -31,7 +31,9 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <script>
-
+        // this script is responsible of drawing the planes path, from an initial point 
+        // given from the server 
+        // it does so once in 4 seconds
         var IntervalTime = @Session["time"] * 1000
         var canvas = document.getElementById("myCanvas");
         canvas.width = window.innerWidth;

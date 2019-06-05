@@ -35,6 +35,8 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <script>
+        // this script takes care for both : saving a path of 10 sec (or other inputed time) of the plane
+        // and presenting the path on the map
         var IntervalTime = @Session["time"] * 1000
         var canvas = document.getElementById("myCanvas");
         canvas.width = window.innerWidth;

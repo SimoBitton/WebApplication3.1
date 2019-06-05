@@ -38,7 +38,6 @@ namespace WebApplication3._1.Models
 
         /// <summary>
         /// the actual connection function
-        /// when invoked - it will send to the server the actual command
         /// </summary>
         /// <param name="input"></param>
         /// <param name="flightServerIP"></param>
@@ -58,7 +57,13 @@ namespace WebApplication3._1.Models
                 return;
             }
         }
-
+        /// <summary>
+        /// Function in which invoked will return us a string array with 
+        /// for values in the array:lon,lat,rudder and throttle
+        /// in order to do so - it uses the connection to server and IO object
+        /// plus it cuts redundent strings in order to get the Valued data.
+        /// </summary>
+        /// <returns></returns>
         public string[] SendCommand()
         {
             ns = server.GetStream();
@@ -83,6 +88,9 @@ namespace WebApplication3._1.Models
             cmds[4] = Environment.NewLine;
             return cmds;
         }
+        /// <summary>
+        /// a simple ending of connection
+        /// </summary>
 
         public void CloseServer()
         {

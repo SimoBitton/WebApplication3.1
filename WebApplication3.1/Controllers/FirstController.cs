@@ -7,12 +7,21 @@ using System.Net;
 
 namespace WebApplication3._1.Controllers
 {
+
+    /***
+     * The controller Class -  responsible for controlling the way that the application
+     * will react to Users requests.
+       contains the flow control logic for the application
+     * */
+
+    
+
     public class FirstController : Controller
     {
-
+        //static members - used at mission4
         static string[][] data;
         static int count = 0;
-        // GET: First
+        // First Mission - connecting with the server and showing the Index view.
         public ActionResult Index(string ip, int port)
         {
             Command.Instance.Start(ip, port);
@@ -21,6 +30,12 @@ namespace WebApplication3._1.Controllers
             ViewBag.lat = float.Parse(details[1]);
             return View("Index");
         }
+
+        /***
+         * Second Mission - connecting with the server 
+         * Updates the csHtml with time argument
+         * returns the View of "Second"
+         ***/
 
         public ActionResult Second(string ip, int port, int time)
         {
@@ -31,6 +46,13 @@ namespace WebApplication3._1.Controllers
             Session["time"] = time;
             return View();
         }
+
+        /***
+      * Third Mission - Creating a txt file, named according to the given argument. 
+      * connecting to the Server and recieves intial lat and lon from it.
+      * Updates the csHtml with @time,@filename and @sec arguments.
+      * returns the View of "Third".
+      ***/
 
         public ActionResult Third(string ip, int port, int time, int sec, string fileName)
         {
@@ -47,7 +69,9 @@ namespace WebApplication3._1.Controllers
             Session["sec"] = sec;
             return View();
         }
-
+        /**
+         * The function to differntiate between the similarity of mission1 and mission4 request parameters.
+         * ***/
         public ActionResult FirstOrFourth(string ip, int port)
         {
             IPAddress number;
@@ -56,6 +80,13 @@ namespace WebApplication3._1.Controllers
             return Fourth(ip, port);
 
         }
+
+
+        /***
+        * Fourt Mission - reading from txt file, named according to the given argument. 
+        * Updates the csHtml with @time and @filename arguments.
+        * returns the View of "Fourth".
+        ***/
 
         public ActionResult Fourth(string fileName, int time)
         {
@@ -74,6 +105,13 @@ namespace WebApplication3._1.Controllers
             Session["fileName"] = fileName;
             return View("Fourth");
         }
+
+        /// <summary>
+        /// with our static members that help us to read consecutivly from a txt file
+        /// we now generate an XML file in order to present our txt file's content in 
+        /// our appliction.
+        /// </summary>
+        /// <returns></returns>
 
         public string fileToXml()
         {
@@ -106,12 +144,21 @@ namespace WebApplication3._1.Controllers
             return sb.ToString();
 
         }
-
+        /// <summary>
+        ///Control of Deafault View
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Default()
         {
             return View();
         }
 
+
+        /// <summary>
+        /// this function is responsible of generating data from server 
+        /// into an xml to be presented in our application
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public string generateXml()
         {
@@ -137,6 +184,13 @@ namespace WebApplication3._1.Controllers
             return sb.ToString();
         }
 
+
+        /// <summary>
+        /// This function does maily two things :
+        /// 1. extracts data from server and creates a txt file with the data.
+        /// 2. generates XML with that data - to be presented in our Appliction.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public string createFile()
         {
