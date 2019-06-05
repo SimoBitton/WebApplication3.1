@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
+using System.IO;
 using WebApplication3._1.Models;
 
 namespace WebApplication3._1.Controllers
@@ -33,6 +34,10 @@ namespace WebApplication3._1.Controllers
 
         public ActionResult Third(string ip, int port, int time, int sec)
         {
+            if (System.IO.File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\" + "flight1.txt"))
+            {
+                System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\" + "flight1.txt");
+            }
             Command.Instance.Start(ip, port);
             Session["time"] = time;
             Session["sec"] = sec;
@@ -73,8 +78,9 @@ namespace WebApplication3._1.Controllers
         [HttpPost]
         public string createFile()
         {
+            Random rnd = new Random();
             string[] details = Command.Instance.SendCommand();
-            System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\" + "flight1.txt", details);
+            System.IO.File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + @"\" + "flight1.txt", string.Join("; ", details));
 
             StringBuilder sb = new StringBuilder();
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -83,8 +89,8 @@ namespace WebApplication3._1.Controllers
             writer.WriteStartDocument();
             writer.WriteStartElement("Details");
 
-            writer.WriteElementString("Lon", details[0]);
-            writer.WriteElementString("Lat", details[1]);
+            writer.WriteElementString("Lon", (float.Parse(details[0]) + rnd.Next(10, 40)).ToString());
+            writer.WriteElementString("Lat", (float.Parse(details[1]) + rnd.Next(10, 40)).ToString());
             writer.WriteElementString("Rudder", details[2]);
             writer.WriteElementString("Throttle", details[3]);
 

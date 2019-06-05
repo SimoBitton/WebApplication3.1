@@ -56,13 +56,12 @@
                 endPoints.push({ x: Lon, y: Lat });
                 ctx.beginPath();
                 ctx.moveTo(lon, lat);
-                for (var i = 0; i < endPoints.length; i++) {
+                for (var i = 1; i < endPoints.length; i++) {
                     ctx.lineTo(endPoints[i].x, endPoints[i].y);
                     ctx.strokeStyle = "red";
                     ctx.stroke();
                 }
             });
-
          });
 
         setInterval(myTimer, IntervalTime);

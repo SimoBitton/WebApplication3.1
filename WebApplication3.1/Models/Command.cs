@@ -80,6 +80,7 @@ namespace WebApplication3._1.Models
             cmds[3] = cmds[3].Replace("/> /controls/engines/current-engine/throttle = '", "");
             for (int i = 0; i < 4; i++)
                 cmds[i] = cmds[i].Replace("' (double)\r", "");
+            cmds[4] = Environment.NewLine;
             return cmds;
         }
 

@@ -51,8 +51,8 @@
         ctx.stroke();
 
         endPoints = [];
-         myTimer = (function () {
-            $.post("@Url.Action("createFile")").done(function (xml) {
+        myTimer = (function () {
+           $.post("@Url.Action("createFile")").done(function (xml) {
                 var xmlDoc = $.parseXML(xml);
                 $xml = $(xmlDoc);
                 Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
@@ -60,17 +60,23 @@
                 endPoints.push({ x: Lon, y: Lat });
                 ctx.beginPath();
                 ctx.moveTo(lon, lat);
-                for (var i = 0; i < endPoints.length; i++) {
+                for (var i = 1; i < endPoints.length; i++) {
                     ctx.lineTo(endPoints[i].x, endPoints[i].y);
                     ctx.strokeStyle = "red";
                     ctx.stroke();
                 }
             });
-
          });
 
-        setInterval(myTimer, IntervalTime);
+
+        endTimer = (function () {
+            clearInterval(endTimerInterval);
+        });
+
+        setTimeout(endTimer, (@Session["sec"] * 1000));
+        var endTimerInterval = setInterval(myTimer, IntervalTime);
         myTimer();
+
 
     </script>
 </body>
