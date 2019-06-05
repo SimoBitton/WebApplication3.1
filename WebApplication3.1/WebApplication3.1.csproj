@@ -172,6 +172,7 @@
     <Content Include="Views\First\Second.cshtml" />
     <Content Include="Views\First\Default.cshtml" />
     <Content Include="Views\First\Third.cshtml" />
+    <Content Include="Views\First\Fourth.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

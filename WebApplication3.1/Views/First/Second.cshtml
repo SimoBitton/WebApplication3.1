@@ -31,6 +31,7 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <script>
+
         var IntervalTime = @Session["time"] * 1000
         var canvas = document.getElementById("myCanvas");
         canvas.width = window.innerWidth;
@@ -45,6 +46,10 @@
         ctx.arc(lon, lat, 7, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
+
+        window.onbeforeunload = function () {
+            $.post("@Url.Action("CloseServer")");
+        };
 
         endPoints = [];
         myTimer = (function () {

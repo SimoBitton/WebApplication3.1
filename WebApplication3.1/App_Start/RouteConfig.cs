@@ -13,9 +13,9 @@ namespace WebApplication3._1
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-                name: "FirstMission",
+                name: "FirstOrFourth",
                 url: "display/{ip}/{port}",
-                defaults: new { controller = "First", action = "Index" }
+                defaults: new { controller = "First", action = "FirstOrFourth" }
           );
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -28,7 +28,7 @@ namespace WebApplication3._1
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
               name: "ThirdMission",
-              url: "save/{ip}/{port}/{time}/{sec}/flight1",
+              url: "save/{ip}/{port}/{time}/{sec}/{fileName}",
               defaults: new { controller = "First", action = "Third" }
           );
 
